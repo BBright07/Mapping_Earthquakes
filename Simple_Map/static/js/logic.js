@@ -7,11 +7,43 @@ console.log("working");
 // Create the map object with a center and zoom level.
 //let map = L.map('mapid').setView([40.7, -94.5], 4);
 // Create the map object with a center and zoom level.
-let map = L.map("mapid", {center: [37.6213, -122.3790],zoom: 5
+let map = L.map("mapid", {center: [37.5, -122.5],zoom: 10
   });
 
+  // Add GeoJSON data.
+let sanFranAirport =
+{"type":"FeatureCollection","features":[{
+    "type":"Feature",
+    "properties":{
+        "id":"3469",
+        "name":"San Francisco International Airport",
+        "city":"San Francisco",
+        "country":"United States",
+        "faa":"SFO",
+        "icao":"KSFO",
+        "alt":"13",
+        "tz-offset":"-8",
+        "dst":"A",
+        "tz":"America/Los_Angeles"},
+        "geometry":{
+            "type":"Point",
+            "coordinates":[-122.375,37.61899948120117]}}
+]};
+// Grabbing our GeoJSON data.
+L.geoJSON(sanFranAirport).addTo(map);
+
+// Grabbing our GeoJSON data.
+L.geoJSON(sanFranAirport, {
+  // We turn each feature into a marker on the map.
+  onEachFeature: function(feature, layer) {
+    console.log(layer);
+    layer.bindPopup();
+  }
+
+}).addTo(map);
+
 //Airport stop line
-let line = [ [37.615223,	-122.389977],
+let line = [ [37.61899948120117,	-122.375,37],
 [30.18999924, -97.668663992], 
 [	43.6777171,-79.624819699],
 [40.658732,-73.812131]
@@ -47,7 +79,5 @@ cityData.forEach(function(city) {
   .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population.toLocaleString() + "</h3>")
 .addTo(map);
 });
-
-// Then we add our 'graymap' tile layer to the map.
 
 
